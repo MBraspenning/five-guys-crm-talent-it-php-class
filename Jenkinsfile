@@ -10,13 +10,11 @@ pipeline {
             }
         }
         stage('Composer setup') {
-            stage('Composer setup') {
-                steps {
-                   sh 'curl -o composer-setup.php https://getcomposer.org/installer'
-                   sh 'php composer-setup.php'
-                   sh 'rm composer-setup.php'
-                   sh 'php composer.phar install -q --no-progress --no-suggest'
-                }
+            steps {
+               sh 'curl -o composer-setup.php https://getcomposer.org/installer'
+               sh 'php composer-setup.php'
+               sh 'rm composer-setup.php'
+               sh 'php composer.phar install -q --no-progress --no-suggest'
             }
         }
         stage('Vulnerability Checks (CVE)') {

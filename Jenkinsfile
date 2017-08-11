@@ -20,7 +20,7 @@ pipeline {
         stage('Vulnerability Checks (CVE)') {
             steps {
                 sh 'if [ ! -f security-checker.phar ]; then curl -O http://get.sensiolabs.org/security-checker.phar; fi;'
-                sh 'php security-checker security:check composer.lock'
+                sh 'php security-checker.phar security:check composer.lock'
             }
         }
         stage('Run unit tests') {

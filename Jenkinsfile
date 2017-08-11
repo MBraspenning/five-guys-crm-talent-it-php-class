@@ -1,3 +1,5 @@
+#!/usr/bin/env groovy
+
 pipeline {
     agent any
 
@@ -9,7 +11,9 @@ pipeline {
         }
         stage('Composer setup') {
             steps {
-               sh 'curl -sS https://getcomposer.org/installer|php -'
+               sh 'curl -O composer-installer.php https://getcomposer.org/installer'
+               sh 'php composer-installer.php'
+               sh 'rm composer-installer.php';
                sh 'php composer.phar install'
             }
         }

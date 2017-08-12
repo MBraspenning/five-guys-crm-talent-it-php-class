@@ -41,9 +41,9 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "ApplicationTest\\": "module/Application/test/",
-            "ContactTest\\": "module/Contact/test/",
-            "AuthTest\\": "module/Auth/test/"
+            "Application\\Test\\": "module/Application/test/",
+            "Contact\\Test\\": "module/Contact/tests/",
+            "Auth\\Test\\": "module/Auth/tests/"
         }
     },
     "extra": [],

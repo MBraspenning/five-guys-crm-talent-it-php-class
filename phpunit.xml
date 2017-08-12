@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/autoload.php">
+
+    <testsuites>
+        <testsuite name="CloudCRM Auth module unit tests">
+            <directory>./module/Auth/tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">module/Auth/src/</directory>
+        </whitelist>
+    </filter>
+
+    <logging>
+        <log type="coverage-html" target="build/coverage" lowUpperBound="85" highLowerBound="95"/>
+        <log type="coverage-clover" target="build/logs/coverage.xml"/>
+        <log type="junit" target="build/logs/logfile.xml" logIncompleteSkipped="false"/>
+    </logging>
+
+</phpunit>

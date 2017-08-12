@@ -20,8 +20,8 @@ pipeline {
         }
         stage('Run unit tests') {
             steps {
-                sh 'php -v'
-                sh './vendor/bin/phpunit -v'
+                sh 'php -c phpunit.xml -v'
+                sh './vendor/bin/phpunit -c phpunit.xml'
             }
         }
         stage('Do static analysis with phing') {

@@ -4,11 +4,6 @@ pipeline {
     agent any
 
     stages {
-        stage('Check out SCM') {
-            steps {
-               checkout scm 
-            }
-        }
         stage('Composer setup') {
             steps {
                sh 'curl -o composer-setup.php https://getcomposer.org/installer'
@@ -25,12 +20,14 @@ pipeline {
         }
         stage('Run unit tests') {
             steps {
-                echo './vendor/bin/phpunit -v'
+                sh 'php -v'
+                sh './vendor/bin/phpunit -v'
             }
         }
         stage('Do static analysis with phing') {
             steps {
-                echo 'phing'
+                sh 'if [ ! -f phing.phar ]; then curl -o phing.phar http://www.phing.info/get/phing-latest.phar; fi;'
+                sh 'php phing.phar -v'
             }
         }
         stage('Create deployment package') {
@@ -50,7 +47,7 @@ pipeline {
         }
         stage('Warm-up caches') {
             steps {
-                echo 'Running DBDeploy...'
+                echo 'Warming up caches...'
             }
         }
         stage('Run release quality tests') {

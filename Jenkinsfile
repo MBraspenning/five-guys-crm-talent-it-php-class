@@ -20,7 +20,7 @@ pipeline {
         }
         stage('Run unit tests') {
             steps {
-                sh 'php -c phpunit.xml -v'
+                sh 'php -v'
                 sh './vendor/bin/phpunit -c phpunit.xml'
             }
         }

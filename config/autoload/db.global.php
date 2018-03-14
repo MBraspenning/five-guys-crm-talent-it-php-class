@@ -1,21 +1,15 @@
 <?php
 
 return [
-    /*'db' => [
+    'db' => [
         'driver' => 'Pdo',
-        'dsn' => sprintf(
-            'mysql:dbname=%s;host=%s;port=%d;charset=%s',
-            getenv('ZFCRM_DB_DBNAME'),
-            getenv('ZFCRM_DB_HOSTNAME'),
-            getenv('ZFCRM_DB_PORT'),
-            'utf8'
-        ),
-        'username' => getenv('ZFCRM_DB_USERNAME'),
-        'password' => getenv('ZFCRM_DB_PASSWORD'),
+        'dsn' => 'mysql:host=127.0.0.1;dbname=phpbootcamp_crm;port=3306;charset=utf8',
+        'username' => 'phpbootcamp_crm',
+        'password' => 'ZF4Fun&Profit',
         'driver_options' => [
             'factories' => [
                 \Zend\Db\Adapter\Adapter::class => \Zend\Db\Adapter\AdapterServiceFactory::class,
             ],
         ],
-    ],*/
+    ],
 ];

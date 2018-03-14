@@ -5,14 +5,15 @@ namespace Auth\Service;
 
 use Auth\Entity\MemberInterface;
 use Auth\Model\MemberModel;
-use Contact\Entity\ContactAddressInterface;
-use Contact\Entity\ContactEmailInterface;
-use Contact\Entity\ContactImageInterface;
+use Contact\Entity\AddressInterface;
 use Contact\Entity\ContactInterface;
-use Contact\Model\ContactAddressCommandInterface;
-use Contact\Model\ContactCommandInterface;
-use Contact\Model\ContactEmailCommandInterface;
-use Contact\Model\ContactImageModelInterface;
+use Contact\Entity\EmailAddressInterface;
+use Contact\Entity\ImageInterface;
+use Contact\Model\AddressModelInterface;
+use Contact\Model\ContactModelInterface;
+use Contact\Model\EmailAddressModelInterface;
+use Contact\Model\ImageModelInterface;
+
 
 class MemberService
 {
@@ -27,9 +28,9 @@ class MemberService
     protected $memberPrototype;
 
     /**
-     * @var ContactCommandInterface
+     * @var ContactModelInterface
      */
-    protected $contactCommand;
+    protected $contactModel;
 
     /**
      * @var ContactInterface
@@ -37,72 +38,72 @@ class MemberService
     protected $contactPrototype;
 
     /**
-     * @var ContactEmailCommandInterface
+     * @var EmailAddressModelInterface
      */
-    protected $contactEmailCommand;
+    protected $emailAddressModel;
 
     /**
-     * @var ContactEmailInterface
+     * @var EmailAddressInterface
      */
-    protected $contactEmailPrototype;
+    protected $emailAddressPrototype;
 
     /**
-     * @var ContactAddressCommandInterface
+     * @var AddressModelInterface
      */
-    protected $contactAddressCommand;
+    protected $addressModel;
 
     /**
-     * @var ContactAddressInterface
+     * @var AddressInterface
      */
-    protected $contactAddressPrototype;
+    protected $addressPrototype;
 
     /**
-     * @var ContactImageModelInterface
+     * @var ImageModelInterface
      */
-    protected $contactImageModel;
+    protected $imageModel;
 
     /**
-     * @var ContactImageInterface
+     * @var ImageInterface
      */
-    protected $contactImagePrototype;
+    protected $imagePrototype;
 
     /**
      * MemberService constructor.
      *
      * @param MemberModel $memberModel
      * @param MemberInterface $memberPrototype
-     * @param ContactCommandInterface $contactCommand
+     * @param ContactModelInterface $contactModel
      * @param ContactInterface $contactPrototype
-     * @param ContactEmailCommandInterface $contactEmailCommand
-     * @param ContactEmailInterface $contactEmailPrototype
-     * @param ContactAddressCommandInterface $contactAddressCommand
-     * @param ContactAddressInterface $contactAddress
-     * @param ContactImageModelInterface $contactImageModel
-     * @param ContactImageInterface $contactImage
+     * @param EmailAddressModelInterface $emailAddressModel
+     * @param EmailAddressInterface $emailAddressPrototype
+     * @param AddressModelInterface $addressModel
+     * @param AddressInterface $addressPrototype
+     * @param ImageModelInterface $imageModel
+     * @param ImageInterface $imagePrototype
      */
     public function __construct(
         MemberModel $memberModel,
         MemberInterface $memberPrototype,
-        ContactCommandInterface $contactCommand,
+        ContactModelInterface $contactModel,
         ContactInterface $contactPrototype,
-        ContactEmailCommandInterface $contactEmailCommand,
-        ContactEmailInterface $contactEmailPrototype,
-        ContactAddressCommandInterface $contactAddressCommand,
-        ContactAddressInterface $contactAddress,
-        ContactImageModelInterface $contactImageModel,
-        ContactImageInterface $contactImage
+        EmailAddressModelInterface $emailAddressModel,
+        EmailAddressInterface $emailAddressPrototype,
+        AddressModelInterface $addressModel,
+        AddressInterface $addressPrototype,
+        ImageModelInterface $imageModel,
+        ImageInterface $imagePrototype
     )
     {
         $this->memberModel = $memberModel;
         $this->memberPrototype = $memberPrototype;
-        $this->contactCommand = $contactCommand;
+        $this->contactModel = $contactModel;
         $this->contactPrototype = $contactPrototype;
-        $this->contactEmailCommand = $contactEmailCommand;
-        $this->contactEmailPrototype = $contactEmailPrototype;
-        $this->contactAddressCommand = $contactAddressCommand;
-        $this->contactAddressPrototype = $contactAddress;
-        $this->contactImageModel = $contactImageModel;
-        $this->contactImagePrototype = $contactImage;
+        $this->emailAddressModel = $emailAddressModel;
+        $this->emailAddressPrototype = $emailAddressPrototype;
+        $this->addressModel = $addressModel;
+        $this->addressPrototype = $addressPrototype;
+        $this->imageModel = $imageModel;
+        $this->imagePrototype = $imagePrototype;
     }
 
 
@@ -126,9 +127,9 @@ class MemberService
             $memberProfileData['firstName'],
             $memberProfileData['lastName']
         );
-        $contactEntity = $this->contactCommand->insertContact($newContact);
+        $contactEntity = $this->contactModel->saveContact($memberEntity->getMemberId(), $newContact);
 
-        $contactEmailClass = get_class($this->contactEmailPrototype);
+        $contactEmailClass = get_class($this->emailAddressPrototype);
         $newContactEmail = new $contactEmailClass(
             0,
             $memberEntity->getMemberId(),
@@ -136,9 +137,9 @@ class MemberService
             $memberProfileData['emailAddress'],
             true
         );
-        $contactEmailEntity = $this->contactEmailCommand->insertContactEmail($newContactEmail);
+        $contactEmailEntity = $this->emailAddressModel->saveEmailAddress($contactEntity->getContactId(), $newContactEmail);
 
-        $contactAddressClass = get_class($this->contactAddressPrototype);
+        $contactAddressClass = get_class($this->addressPrototype);
         $newContactAddress = new $contactAddressClass(
             0,
             $memberEntity->getMemberId(),
@@ -152,9 +153,9 @@ class MemberService
                 strtoupper($memberProfileData['location']['country']['code']) :
                 '')
         );
-        $contactAddressEntity = $this->contactAddressCommand->saveContactAddress($newContactAddress);
+        $contactAddressEntity = $this->addressModel->saveAddress($contactEntity->getContactId(), $newContactAddress);
 
-        $contactImageClass = get_class($this->contactImagePrototype);
+        $contactImageClass = get_class($this->imagePrototype);
         $newContactImage = new $contactImageClass(
             0,
             $memberEntity->getMemberId(),
@@ -162,7 +163,7 @@ class MemberService
             $memberProfileData['pictureUrl'],
             true
         );
-        $contactImageEntity = $this->contactImageModel->saveContactImage($newContactImage);
+        $contactImageEntity = $this->imageModel->saveImage($newContactImage);
 
         return $memberEntity;
     }

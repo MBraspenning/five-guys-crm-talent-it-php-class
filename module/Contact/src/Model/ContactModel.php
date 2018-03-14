@@ -7,6 +7,7 @@ use Contact\Entity\ContactInterface;
 use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\Adapter\Driver\ResultInterface;
 use Zend\Db\ResultSet\HydratingResultSet;
+use Zend\Db\Sql\Insert;
 use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Update;
 use Zend\Hydrator\HydratorInterface;
@@ -94,7 +95,7 @@ class ContactModel implements ContactModelInterface
         if (0 < $contact->getContactId()) {
             return $this->updateContact($memberId, $contact);
         }
-        return $this->insertContact($memberId, $contact);
+        return $this->insertContact($contact);
     }
 
     /**
@@ -103,6 +104,23 @@ class ContactModel implements ContactModelInterface
     public function deleteContact($memberId, ContactInterface $contact)
     {
         // TODO: Implement deleteContact() method.
+    }
+
+    private function insertContact(ContactInterface $contact)
+    {
+        $contactData = $this->hydrator->extract($contact);
+        unset ($contactData['contact_id']);
+        $insert = new Insert(self::TABLE_NAME);
+        $insert->values($contactData);
+
+        $sql = new Sql($this->db);
+        $stmt = $sql->prepareStatementForSqlObject($insert);
+        $result = $stmt->execute();
+
+        $contactId = $result->getGeneratedValue();
+        $newContactEntity = clone $this->contactPrototype;
+        $contactData['contact_id'] = $contactId;
+        return $this->hydrator->hydrate($contactData, $newContactEntity);
     }
 
     private function updateContact($memberId, ContactInterface $contact)

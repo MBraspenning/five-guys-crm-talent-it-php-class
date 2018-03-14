@@ -7,6 +7,7 @@ use Contact\Entity\AddressInterface;
 use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\Adapter\Driver\ResultInterface;
 use Zend\Db\ResultSet\HydratingResultSet;
+use Zend\Db\Sql\Insert;
 use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Update;
 use Zend\Hydrator\HydratorInterface;
@@ -117,6 +118,25 @@ class AddressModel implements AddressModelInterface
         $stmt->execute();
 
         return $address;
+    }
+
+    private function insertAddress($contactId, AddressInterface $address)
+    {
+        $addressData = $this->hydrator->extract($address);
+        unset($addressData['contact_address_id']);
+
+        $insert = new Insert(self::TABLE_NAME);
+        $insert->values($addressData);
+
+        $sql = new Sql($this->db);
+        $stmt = $sql->prepareStatementForSqlObject($insert);
+        $result = $stmt->execute();
+
+        $addressId = $result->getGeneratedValue();
+        $addressData['contact_address_id'] = $addressId;
+        $newAddressEntity = clone $this->addressPrototype;
+
+        return $this->hydrator->hydrate($addressData, $newAddressEntity);
     }
 
 }

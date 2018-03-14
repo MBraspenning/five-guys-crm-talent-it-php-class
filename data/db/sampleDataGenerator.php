@@ -6,7 +6,7 @@ use Faker\Factory;
 $faker = Factory::create();
 $max = 5000;
 
-$pdo = new \PDO('mysql:host=127.0.0.1;dbname=phpbootcamp_zfcrm;charset=utf8', 'phpbootcamp_zfcrm', 'G1v3me@Cce$$!');
+$pdo = new \PDO('mysql:host=127.0.0.1;dbname=phpbootcamp_crm;charset=utf8', 'phpbootcamp_crm', 'ZF4Fun&Profit');
 
 for ($i = 0; $i < $max; $i++) {
     $contactStmt = $pdo->prepare('INSERT INTO `contact` (`first_name`, `last_name`, `created`, `modified`) VALUES (?, ?, ?, ?)');

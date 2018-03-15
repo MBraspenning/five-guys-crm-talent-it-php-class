@@ -21,7 +21,7 @@
 
                 <tr>
                     <td>
-                        <?php if (null !== $contact->getImages()): ?>
+                        <?php if (null !== $contact->getImages() && false !== $contact->getImages()->current()): ?>
                         <img src="<?php echo $contact->getImages()->current()->getImageLink() ?>" width="24" height="24">
                         <?php endif ?>
                     </td>

@@ -45,7 +45,7 @@ for ($i = 0; $i < $max; $i++) {
             $faker->dateTimeBetween('-1 year')->format('Y-m-d H:i:s'),
             $faker->dateTimeBetween('-1 year')->format('Y-m-d H:i:s'),
         ])) {
-        throw new \RuntimeException('Cannot execute prepared statement for member: ' . implode(', ', $contactStmt->errorInfo()));
+        throw new \RuntimeException('Cannot execute prepared statement for member: ' . implode(', ', $memberStmt->errorInfo()));
     }
     $memberId = $pdo->lastInsertId();
 
@@ -103,7 +103,7 @@ for ($i = 0; $i < $max; $i++) {
 
         $emailAddressPlusListStmt->bindValue(1, $emailPlus, PDO::PARAM_STR);
         if (false === $emailAddressPlusListStmt->execute()) {
-            throw new \RuntimeException('Cannot execute prepared statement for e-mail retrieval: ' . implode(', ', $emailAddressListStmt->errorInfo()));
+            throw new \RuntimeException('Cannot execute prepared statement for e-mail retrieval: ' . implode(', ', $emailAddressPlusListStmt->errorInfo()));
         }
 
         if (false === ($emailPlusFound = $emailAddressPlusListStmt->fetchColumn(0))) {
@@ -116,7 +116,7 @@ for ($i = 0; $i < $max; $i++) {
                     $faker->dateTimeBetween('-1 year')->format('Y-m-d H:i:s'),
                     $faker->dateTimeBetween('-1 year')->format('Y-m-d H:i:s'),
                 ])) {
-                throw new \RuntimeException('Cannot execute prepared statement for e-mail plus: ' . implode(', ', $emailAddressPlusStmt->errorInfo()));
+                throw new \RuntimeException('Cannot execute prepared statement for e-mail plus: ' . implode(', ', $emailPlusStmt->errorInfo()));
             }
         }
     }

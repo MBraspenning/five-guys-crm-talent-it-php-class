@@ -163,7 +163,7 @@ class MemberService
             $memberProfileData['pictureUrl'],
             true
         );
-        $contactImageEntity = $this->imageModel->saveImage($newContactImage);
+        $contactImageEntity = $this->imageModel->saveImage($contactEntity->getContactId(), $newContactImage);
 
         return $memberEntity;
     }

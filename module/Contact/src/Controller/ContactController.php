@@ -2,7 +2,6 @@
 
 namespace Contact\Controller;
 
-
 use Contact\Model\ContactModelInterface;
 use Contact\Model\EmailAddressModelInterface;
 use Zend\Mvc\Controller\AbstractActionController;

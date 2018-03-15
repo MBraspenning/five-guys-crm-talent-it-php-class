@@ -1,3 +1,5 @@
+USE `phpbootcamp_crm`;
+
 DROP TABLE IF EXISTS `member`;
 CREATE TABLE `member` (
   `member_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,

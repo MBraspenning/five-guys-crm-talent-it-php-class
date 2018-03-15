@@ -84,10 +84,11 @@ class AuthController extends AbstractActionController
                 return $this->redirect()->toRoute('auth/cancelled');
             }
         }
-
+        
         try {
             $accessCode = $this->linkedInService->requestAccessCode($response->code);
         } catch (\RuntimeException $runtimeException) {
+            var_dump($runtimeException->getMessage()); die();
             return $this->redirect()->toRoute('auth/problem');
         }
 

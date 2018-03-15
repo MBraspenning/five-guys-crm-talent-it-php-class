@@ -49,8 +49,8 @@ In the directory `data/db` you will find several `.sql` files you need to execut
 
 ```
 mysql -h127.0.0.1 -uroot -p < data/db/database.mysql.sql 
-mysql -h127.0.0.1 -uroot -p < data/db/zfcrm.ddl.sql 
-mysql -h127.0.0.1 -uroot -p < data/db/zfcrm.data.sql
+mysql -h127.0.0.1 -uroot -p phpbootcamp_crm < data/db/zfcrm.ddl.sql 
+mysql -h127.0.0.1 -uroot -p phpbootcamp_crm < data/db/zfcrm.data.sql
 
 php data/db/sampleDataGenerator.php
 ```

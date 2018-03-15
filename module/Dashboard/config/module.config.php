@@ -66,7 +66,7 @@ return [
     ],
     'view_manager' => [
         'template_path_stack' => [
-            'contact' => __DIR__ . '/../view',
+            'dashboard' => __DIR__ . '/../view',
         ],
     ],
 ];

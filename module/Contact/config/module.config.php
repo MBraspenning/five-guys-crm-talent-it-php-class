@@ -40,7 +40,7 @@ return [
                     'edit' => [
                         'type' => Segment::class,
                         'options' => [
-                            'route' => '/edit[/:id]',
+                            'route' => '/edit[/:contactId]',
                             'defaults' => [
                                 'action' => 'edit', 
                             ],

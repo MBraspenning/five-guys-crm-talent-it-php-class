@@ -1,0 +1,61 @@
+<?php
+/** @var \Dashboard\Form\ContactForm $form */
+$form = $this->form;
+$form->setAttribute('method', 'post');
+$form->setAttribute('action', $this->url('dashboard/contacts/edit', ['contactId' => $this->contact->getContactId()]));
+$contactData = $form->getHydrator()->extract($this->contact);
+
+$contactEmailData = [];
+foreach ($this->contact->getEmailAddresses() as $emailAddress) {
+    $contactEmailData[] = $form->get('contact-email-collection')->getTargetElement()->getHydrator()->extract($emailAddress);
+}
+
+$contactAddressData = [];
+foreach ($this->contact->getAddresses() as $address) {
+    $contactAddressDataEntry = $form->get('contact-address-collection')->getTargetElement()->getHydrator()->extract($address);
+    $contactAddressDataEntry['country'] = $address->getCountry();
+    $contactAddressData[] = $contactAddressDataEntry;
+}
+
+$form->setData([
+    'contact-fieldset' => $contactData,
+    'contact-email-collection' => $contactEmailData,
+    'contact-address-collection' => $contactAddressData,
+]);
+$form->prepare();
+
+/** @var \Dashboard\Form\ContactFieldset $contactFieldset */
+$contactFieldset = $form->get('contact-fieldset');
+$contactEmailCollection = $form->get('contact-email-collection');
+$contactAddressCollection = $form->get('contact-address-collection');
+?>
+
+
+<?php echo $this->form()->openTag($form) ?>
+
+<?php $contactId = $contactFieldset->get('contact_id'); ?>
+<?php echo $this->formElement($contactId) ?>
+
+<?php $firstName = $contactFieldset->get('first_name') ?>
+<div class="form-group">
+    <?php echo $this->formLabel($firstName, $this->translate('First name')) ?>
+    <?php echo $this->formElement($firstName) ?>
+    <?php echo $this->formElementErrors()->render($firstName, ['class' => 'help-block']) ?>
+</div>
+
+<?php $lastName = $contactFieldset->get('last_name') ?>
+<div class="form-group">
+    <?php echo $this->formLabel($lastName, $this->translate('Last name')) ?>
+    <?php echo $this->formElement($lastName) ?>
+    <?php echo $this->formElementErrors()->render($lastName, ['class' => 'help-block']) ?>
+</div>
+
+<?php echo $this->formCollection($contactEmailCollection); ?>
+
+<?php echo $this->formCollection($contactAddressCollection, true) ?>
+
+<?php echo $this->formRow($form->get('csrf')) ?>
+
+<?php echo $this->formRow($form->get('submit')) ?>
+
+<?php echo $this->form()->closeTag($form) ?>

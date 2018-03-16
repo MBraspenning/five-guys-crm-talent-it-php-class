@@ -1,1 +1,46 @@
-<h1>Edit</h1>
+<?php $this->headTitle(sprintf($this->translate('Detail for %s %s'), $this->contact->getFirstName(), $this->contact->getLastName())) ?>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="h1"><?php echo sprintf($this->translate('Detail for %s %s'), $this->contact->getFirstName(), $this->contact->getLastName()) ?></h1>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-md-3">
+            <nav class="nav">
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="<?php echo $this->url('dashboard') ?>"><span class="glyphicon glyphicon-home"></span> <?php echo $this->translate('Overview') ?></a></li>
+                    <li class="list-group-item active"><span class="glyphicon glyphicon-user"></span> <?php echo $this->translate('Contacts') ?></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="row">
+                <?php echo $this->partial('dashboard/forms/contact-form', [
+                'form' => $this->contactForm,
+                'countries' => $this->countries,
+                'contact' => $this->contact,
+                'submitLabel' => 'Update contact',
+                ]); ?>
+            </div>
+        </div><!-- /.col-md-6 -->
+
+        <div class="col-md-3">
+            <div class="row">
+                <h2 class="h2">Quick actions</h2>
+                <ul>
+                    <li><a href="<?php echo $this->url('dashboard/contacts/detail', ['contactId' => $this->contact->getContactId()]) ?>" title="<?php echo $this->translate('Cancel') ?>"><?php echo $this->translate('Cancel') ?></a></li>
+                    <li><?php echo $this->translate('Delete contact') ?></li>
+                    <li><a href="<?php echo $this->url('dashboard/contacts') ?>" title="<?php echo $this->translate('Back to contact list') ?>"><?php echo $this->translate('Back to contact list') ?></a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+</div>

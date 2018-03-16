@@ -29,11 +29,12 @@ class ContactControllerFactory implements FactoryInterface
             $container->get(AuthenticationService::class),
             $container->get(ContactModelInterface::class),
             $container->get(EmailAddressModelInterface::class),
-            $container->get(CountryModelInterface::class),
             $container->get(AddressModelInterface::class),
+            $container->get(CountryModelInterface::class),
             $container->get(ContactFormServiceInterface::class),
+            $container->get('FormElementManager')->get(ContactForm::class)
 /*            $container->get('FormElementManager')->get(EditForm::class)
-*/            $container->get('FormElementManager')->get(ContactForm::class)
+*/            
         );
     }
 

@@ -2,6 +2,7 @@
 
 namespace Contact\Controller;
 
+use Contact\Model\AddressModelInterface;
 use Contact\Model\ContactModelInterface;
 use Contact\Model\EmailAddressModelInterface;
 use Contact\Model\CountryModelInterface;
@@ -58,6 +59,7 @@ class ContactController extends AbstractActionController
         AuthenticationService $authService,
         ContactModelInterface $contactModel,
         EmailAddressModelInterface $emailAddressModel,
+        AddressModelInterface $addressModel,
         CountryModelInterface $countryModel,
         ContactFormServiceInterface $contactFormService,
         FormInterface $contactForm
@@ -66,6 +68,7 @@ class ContactController extends AbstractActionController
         $this->authService = $authService;
         $this->contactModel = $contactModel;
         $this->emailAddressModel = $emailAddressModel;
+        $this->contactAddressModel = $addressModel;
         $this->countryModel = $countryModel;
         $this->contactFormService = $contactFormService;
         $this->contactForm = $contactForm;
